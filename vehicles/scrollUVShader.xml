@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="uvScrollSpeed" target="uvScrollSpeed" defaultValue="0 0 0 0" type="float4"/>
+    </Parameters>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="MATERIALINFO">
+                <![CDATA[
+                #if defined(ALBEDO_MAP) || defined(EMISSIVE_MAP)
+                uniform float4 uvScrollSpeed;
+                #endif
+                ]]>
+            </CodeInjection>
+            <CodeInjection position="POST_SET_TEXCOORDS_VS">
+                <![CDATA[
+                #if defined(ALBEDO_MAP) || defined(EMISSIVE_MAP)
+					float2 uv = getDefaultTexCoords(In);
+					uv += uvScrollSpeed.xy * cTime_s;
+                    Out.defaultTexCoords = uv;
+                #endif
+                ]]>
+            </CodeInjection>
+          </CodeInjections>
+    </LodLevel>
+</CustomShader>

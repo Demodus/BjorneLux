@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="untitled" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="6.0.2"/>
+  </Asset>
+
+  <Files>
+    <File fileId="2" filename="textures/barrier_diffuse.png" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="lambert1" materialId="6" diffuseColor="0.494118 0.494118 0.494118 1" ambientColor="1 1 1">
+    </Material>
+    <Material name="barrier_mat" materialId="7" ambientColor="1 1 1">
+      <Texture fileId="2"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="barrier_single_manual.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="barrier" nodeId="19">
+      <Shape shapeId="1" name="barrier_trigger" static="true" trigger="true" collisionMask="14680064" clipDistance="240" nodeId="20" materialIds="6" nonRenderable="true">
+        <Shape shapeId="2" name="barrier" static="true" clipDistance="240" nodeId="21" materialIds="7" castsShadows="true" receiveShadows="true">
+          <TransformGroup name="rotationPart" translation="-5.2 1 0" clipDistance="240" nodeId="22">
+            <Shape shapeId="3" name="Schlagbaum_noScale" kinematic="true" clipDistance="240" nodeId="23" materialIds="7" castsShadows="true" receiveShadows="true"/>
+            <Shape shapeId="4" name="Schlagbaum_canScale" translation="0.07429 0 0" kinematic="true" clipDistance="240" nodeId="24" materialIds="7" castsShadows="true" receiveShadows="true"/>
+          </TransformGroup>
+          <Shape shapeId="5" name="Auflage" static="true" clipDistance="240" nodeId="25" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        </Shape>
+      </Shape>
+    </TransformGroup>
+  </Scene>
+
+  <UserAttributes>
+    <UserAttribute nodeId="19">
+      <Attribute name="manualBarrierId" type="integer" value="5"/>
+      <Attribute name="manualOpen" type="boolean" value="true"/>
+      <Attribute name="maxZAngle" type="float" value="90"/>
+      <Attribute name="minZAngle" type="float" value="0"/>
+      <Attribute name="onCreate" type="scriptCallback" value="modOnCreate.ManualBarrier"/>
+      <Attribute name="string_Close" type="string" value="string_CLOSE"/>
+      <Attribute name="string_Name" type="string" value="string_BARRIER"/>
+      <Attribute name="string_Open" type="string" value="string_OPEN"/>
+      <Attribute name="triggerIndex" type="string" value="0>0"/>
+      <Attribute name="typeBarrier" type="boolean" value="true"/>
+    </UserAttribute>
+  </UserAttributes>
+
+</i3D>

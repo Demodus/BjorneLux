@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="untitled" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="6.0.2"/>
+  </Asset>
+
+  <Files>
+    <File fileId="2" filename="textures/rollgate_diffuse.dds" relativePath="true"/>
+    <File fileId="3" filename="textures/rollgate_normal.dds" relativePath="true"/>
+    <File fileId="4" filename="textures/rollgate_specular.dds" relativePath="true"/>
+    <File fileId="12" filename="textures/beaconGlassShader.xml" relativePath="true"/>
+    <File fileId="9" filename="textures/beaconLightAlpha_diffuse.png" relativePath="true"/>
+    <File fileId="10" filename="textures/beaconLightAlpha_normal.png" relativePath="true"/>
+    <File fileId="7" filename="textures/beaconLightCorona_diffuse.png" relativePath="true"/>
+    <File fileId="5" filename="textures/beaconLight_diffuse.png" relativePath="true"/>
+    <File fileId="6" filename="textures/beaconLight_normal.png" relativePath="true"/>
+    <File fileId="11" filename="textures/cubemapYellow.dds" relativePath="true"/>
+    <File fileId="8" filename="textures/emissiveLightsShader.xml" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="UnnamedMaterial" materialId="6" diffuseColor="1 1 1 1" ambientColor="1 1 1" cosPower="150" specularColor="1 1 1">
+    </Material>
+    <Material name="rollgate_mat" materialId="7" ambientColor="1 1 1" cosPower="20" specularColor="1 1 1">
+      <Texture fileId="2"/>
+      <Normalmap fileId="3"/>
+      <Glossmap fileId="4"/>
+    </Material>
+    <Material name="beaconLightCorona_mat" materialId="9" ambientColor="1 1 1" alphaBlending="true" customShaderId="8" customShaderVariation="BILLBOARD_BEACON">
+      <Emissivemap fileId="7"/>
+    </Material>
+    <Material name="beaconLightAlpha_mat" materialId="11" ambientColor="1 1 1" cosPower="40" specularColor="1 1 1" alphaBlending="true" customShaderId="12">
+      <Texture fileId="9"/>
+      <Normalmap fileId="10"/>
+      <Reflectionmap fileId="11" wrap="false" type="cube" scaling="1" refractiveIndex="0.25" bumpScale="0.1" objectMask="2147483647"/>
+    </Material>
+    <Material name="beaconLight_mat" materialId="12" ambientColor="1 1 1" cosPower="200" specularColor="0.811963 0.811963 0.811963">
+      <Texture fileId="5"/>
+      <Normalmap fileId="6"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="rollgate_manual.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="gate" nodeId="140">
+      <Shape shapeId="1" name="gate_trigger" static="true" trigger="true" collisionMask="15736832" clipDistance="200" nodeId="141" materialIds="6" castsShadows="true" receiveShadows="true" nonRenderable="true">
+        <Shape shapeId="2" name="holder" static="true" clipDistance="240" nodeId="142" materialIds="7" castsShadows="true" receiveShadows="true">
+          <Shape shapeId="3" name="rollgate" kinematic="true" clipDistance="240" nodeId="143" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        </Shape>
+      </Shape>
+      <Shape shapeId="4" name="rollgate_drive" translation="8.0858 0 0.2946" static="true" clipDistance="240" nodeId="144" materialIds="7" castsShadows="true" receiveShadows="true"/>
+      <Shape shapeId="5" name="beaconLight06" translation="7.11793 2.47544 0" clipDistance="200" nodeId="145" materialIds="12" castsShadows="true" receiveShadows="true">
+        <Shape shapeId="6" name="rotator" clipDistance="200" nodeId="146" materialIds="12" castsShadows="true" receiveShadows="true">
+          <TransformGroup name="coronas" clipDistance="200" nodeId="147">
+            <Shape shapeId="7" name="backLights_corona_main" translation="3.9443e-033 0.0575965 0.0382383" nodeId="148" materialIds="9" castsShadows="true" receiveShadows="true"/>
+            <Shape shapeId="8" name="backLights_corona_side1" translation="-1.42109e-016 0.0575965 0.0168355" rotation="0 0 45" scale="0.247023 1.43021 1" nodeId="149" materialIds="9" castsShadows="true" receiveShadows="true"/>
+            <Shape shapeId="8" name="backLights_corona_side2" translation="3.81917e-016 0.0575965 0.0168355" rotation="0 0 135" scale="0.229449 1.43021 1" nodeId="150" materialIds="9" castsShadows="true" receiveShadows="true"/>
+            <Shape shapeId="8" name="backLights_corona_side3" translation="1.34421e-017 0.0575965 0.0168355" rotation="0 0 180" scale="0.312542 1.84178 1" nodeId="151" materialIds="9" castsShadows="true" receiveShadows="true"/>
+          </TransformGroup>
+        </Shape>
+        <Shape shapeId="9" name="glass" translation="-3.51212e-009 0 1.95118e-010" clipDistance="200" nodeId="152" materialIds="11" castsShadows="true" receiveShadows="true"/>
+      </Shape>
+    </TransformGroup>
+  </Scene>
+
+
+  <Animation externalAnimFile="rollgate_manual.i3d.anim" />
+  <UserAttributes>
+    <UserAttribute nodeId="140">
+      <Attribute name="animationClip" type="string" value="rollgate_rul"/>
+      <Attribute name="animatorIndex" type="string" value="0>2|0"/>
+      <Attribute name="lightIndex" type="string" value="0>2|0|0"/>
+      <Attribute name="lightOnMove" type="boolean" value="true"/>
+      <Attribute name="manualBarrierId" type="integer" value="14"/>
+      <Attribute name="manualOpen" type="boolean" value="true"/>
+      <Attribute name="maxX" type="float" value="14"/>
+      <Attribute name="minX" type="float" value="0"/>
+      <Attribute name="onCreate" type="scriptCallback" value="modOnCreate.ManualBarrier"/>
+      <Attribute name="string_Close" type="string" value="string_CLOSE"/>
+      <Attribute name="string_Name" type="string" value="string_GATE"/>
+      <Attribute name="string_Open" type="string" value="string_OPEN"/>
+      <Attribute name="triggerIndex" type="string" value="0>0"/>
+      <Attribute name="typeAnimated" type="boolean" value="true"/>
+      <Attribute name="typeGate" type="boolean" value="true"/>
+      <Attribute name="typeLight" type="boolean" value="true"/>
+    </UserAttribute>
+  </UserAttributes>
+
+</i3D>

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<careerVehicles>
+    <vehicle id="1" filename="data/vehicles/steerable/newHolland/newHollandTC590.xml" isAbsolute="true" foldAnimTime="1" fuelFillLevel="178.79943847656" cruiseControl="22" operatingTime="835.67523193359" fillLevel="0" fillType="unknown" isStrawEnabled="true" workedHectars="0" dirtAmount="0.030923216853006" followMe="10 0.0" gasLimiter="1" gearLimiter="1" workingHours="0.12449771910906" fourWheel="false" diffLockFront="false" diffLockBack="false" OverallFuelUsage="11.674927711487" OverallFuelUsageFactor="1717" OverallFuelUsed="30.068151473999" GPSstoreInv="" >
+       <component1 position="108.96238708496 149.47839355469 -102.5901260376" rotation="0.0041900998912752 -0.046735424548388 -6.0848466091556e-005" />
+    </vehicle>
+    <vehicle id="2" filename="data/vehicles/cutters/newHolland/newHollandHeader18.xml" isAbsolute="true" foldAnimTime="0" dirtAmount="0.0094881504774094">
+       <component1 position="112.91558074951 150.5207824707 -101.69456481934" rotation="0.94139730930328 1.5484066009521 0.66880178451538" />
+       <movingTool1 translation="-1.2370001077652"/>
+       <movingTool2 rotation="-0.48600444197655"/>
+    </vehicle>
+    <vehicle id="3" filename="data/vehicles/tools/vaederstad/vaederstadRapidA600S.xml" isAbsolute="true"  lowerAnimTime="0" fillLevel="1680.0738525391" fillType="seeds" selectedSeedFruitType="wheat" foldAnimTime="1" dirtAmount="0.034384250640869">
+       <component1 position="138.74465942383 149.68812561035 -101.94109344482" rotation="0.044134918600321 0.099033914506435 0.00067601131740957" />
+       <component2 position="139.3381652832 150.19964599609 -98.561492919922" rotation="0.052559085190296 -0.59579992294312 -0.037598997354507" />
+    </vehicle>
+    <vehicle id="4" filename="data/vehicles/steerable/ursus/ursus15014.xml" isAbsolute="true" fuelFillLevel="84.811470031738" cruiseControl="43" operatingTime="199.63940429688" attacherJointComboDir="-1" dirtAmount="0.18992035090923" followMe="10 0.0" gasLimiter="1" gearLimiter="1" workingHours="0.16444076597691" fourWheel="true" diffLockFront="true" diffLockBack="true" OverallFuelUsage="7.573326587677" OverallFuelUsageFactor="2006" OverallFuelUsed="22.786067962646" GPSstoreInv="" >
+       <component1 position="191.11381530762 149.2728729248 -70.317352294922" rotation="0.21276786923409 -1.5464323759079 -0.21605464816093" />
+    </vehicle>
+    <vehicle id="5" filename="data/vehicles/trailers/bergmann/bergmannM1080.xml" isAbsolute="true" fillLevel="0" fillType="unknown" foldAnimTime="0" dirtAmount="0.019839067012072">
+       <component1 position="121.54521179199 148.04272460938 24.002883911133" rotation="-3.0934529304504 -1.5387330055237 3.1070740222931" />
+    </vehicle>
+    <vehicle id="6" filename="data/vehicles/tools/amazone/amazoneZAM1501.xml" isAbsolute="true" fillLevel="579.97552490234" fillType="fertilizer" foldAnimTime="0" dirtAmount="0.011306744068861">
+       <component1 position="132.66899108887 149.51812744141 -94.367698669434" rotation="-2.9836096763611 1.5567837953568 -2.9524257183075" />
+    </vehicle>
+    <vehicle id="7" filename="data/vehicles/trailers/poettinger/poettingerEuroboss330T.xml" isAbsolute="true" fillLevel="0" fillType="unknown" dirtAmount="0.02241125702858">
+       <component1 position="134.68083190918 147.99214172363 51.323509216309" rotation="-0.042265851050615 1.5039358139038 -0.072305202484131" />
+    </vehicle>
+    <vehicle id="8" filename="data/vehicles/tools/suer/suerSB1000.xml" isAbsolute="true" dirtAmount="0.11078706383705">
+       <component1 position="188.03968811035 149.24771118164 -70.223564147949" rotation="0.22311097383499 -1.5471704006195 -0.22302109003067" />
+    </vehicle>
+    <vehicle id="9" filename="data/vehicles/tools/kuhn/kuhnGA8521.xml" isAbsolute="true" foldAnimTime="1" dirtAmount="0.026843152940273">
+       <component1 position="117.14587402344 147.96896362305 49.412147521973" rotation="3.1066980361938 -1.5392676591873 -3.1109504699707" />
+       <component2 position="114.80564880371 148.83720397949 49.349906921387" rotation="0.051370810717344 -1.5390733480453 -0.055815525352955" />
+       <component3 position="117.74578857422 150.53991699219 50.020622253418" rotation="-1.6022690534592 -0.0010387527290732 1.5665738582611" />
+       <component4 position="117.78274536133 150.54098510742 48.847347259521" rotation="1.6022828817368 0.0010550743900239 -1.5750271081924" />
+    </vehicle>
+    <vehicle id="10" filename="data/vehicles/steerable/deutz/deutzAgroStar661.xml" isAbsolute="true" fuelFillLevel="286.47631835938" cruiseControl="43" operatingTime="0" attacherJointComboDir="-1" dirtAmount="0.35376226902008" followMe="10 0.0" gasLimiter="1" gearLimiter="1" workingHours="0.0075840568169951" fourWheel="false" diffLockFront="false" diffLockBack="false" OverallFuelUsage="0" OverallFuelUsageFactor="0" OverallFuelUsed="0" GPSstoreInv="" >
+       <component1 position="143.75250244141 152.1519317627 121.36882019043" rotation="-0.49922144412994 1.5655146837234 -0.5067155957222" />
+    </vehicle>
+    <vehicle id="11" filename="data/vehicles/trailers/brantner/brantnerE8041.xml" isAbsolute="true" color="0.05290000140667 0.086499996483326 0.02419999986887 1" fillLevel="0" fillType="unknown" dirtAmount="0.0063291261903942">
+       <component1 position="135.88290405273 147.9884185791 47.893569946289" rotation="0.14976313710213 1.5219377279282 0.15559776127338" />
+    </vehicle>
+    <vehicle id="12" modName="BigShovelUsed" filename="$moddir$BigShovelUsed/stollToolShovel.xml" isAbsolute="true" fillLevel="0" fillType="unknown" dirtAmount="0.012886463664472">
+       <component1 position="147.83871459961 152.04167175293 131.13223266602" rotation="-0.25287079811096 1.560432434082 -0.25362512469292" />
+    </vehicle>
+    <vehicle id="13" modName="FS15_flieglVFW10600" filename="$moddir$FS15_flieglVFW10600/flieglVFW10600.xml" isAbsolute="true" fillLevel="0" fillType="unknown" foldAnimTime="0" dirtAmount="0.019227389246225">
+       <component1 position="147.2438659668 149.53326416016 -20.777822494507" rotation="0.0023060364183038 0.043004237115383 0.0025312558282167" />
+    </vehicle>
+    <vehicle id="14" filename="data/vehicles/tools/horsch/horschTerrano5FM.xml" isAbsolute="true" foldAnimTime="1" dirtAmount="0.036463510245085">
+       <component1 position="157.16885375977 149.47491455078 -97.763885498047" rotation="0.093739382922649 0.86135715246201 0.0011816275073215" />
+       <component2 position="161.85096740723 149.60081481934 -93.743896484375" rotation="0.23508797585964 0.86219489574432 0.00046277410001494" />
+    </vehicle>
+    <vehicle id="15" filename="data/vehicles/tools/poettinger/poettingerNovacat302ED.xml" isAbsolute="true" foldAnimTime="1" dirtAmount="0.0087118055671453">
+       <component1 position="193.83195495605 149.50218200684 -82.340156555176" rotation="-1.6125502586365 -1.0196996927261 1.6035968065262" />
+       <component2 position="194.45001220703 151.10382080078 -84.347183227539" rotation="1.5925539731979 -0.065905258059502 -1.5746195316315" />
+    </vehicle>
+    <vehicle id="16" filename="data/vehicles/steerable/steyr/steyrMulti4115.xml" isAbsolute="true" color="0.61 0.013 0.013 1" fuelFillLevel="144.95086669922" cruiseControl="43" operatingTime="0" attacherJointComboDir="-1" dirtAmount="0.055725652724504" followMe="10 0.0" gasLimiter="1" gearLimiter="1" workingHours="0.12982489168644" fourWheel="true" diffLockFront="true" diffLockBack="true" OverallFuelUsage="3.272941827774" OverallFuelUsageFactor="1714" OverallFuelUsed="8.4153642654419" GPSstoreInv="" >
+       <component1 position="143.91725158691 152.09384155273 131.08941650391" rotation="-0.2543186545372 1.5600483417511 -0.24116857349873" />
+    </vehicle>
+    <vehicle id="17" filename="data/vehicles/tools/suer/suerSB1600.xml" isAbsolute="true" dirtAmount="0.029923550784588">
+       <component1 position="141.29460144043 152.04125976563 131.06805419922" rotation="-2.9899611473083 -1.5539516210556 2.9899773597717" />
+    </vehicle>
+    <vehicle id="18" filename="data/vehicles/frontLoaders/stoll/stollFrontLoaderFZ.xml" isAbsolute="true" color="0.0319 0.0296 0.0273 1" dirtAmount="0.031049747020006">
+       <component1 position="145.88934326172 151.93481445313 131.11706542969" rotation="-0.2774960398674 1.559597492218 -0.2296985834837" />
+       <movingTool1 rotation="0.28337842226028"/>
+       <movingTool2 rotation="-1.0471975511966"/>
+       <movingTool3 rotation="0.28337842226028"/>
+       <movingTool4 rotation="-1.0471975511966"/>
+    </vehicle>
+    <vehicle id="19" filename="data/vehicles/trailers/thueringerAgrar/thueringerAgrarLeguan.xml" isAbsolute="true" color="0.3664 0.6321 0.0203 1" foldAnimTime="0" dirtAmount="0.074134774506092">
+       <component1 position="112.41678619385 149.50666809082 -100.45239257813" rotation="0.0041971667669713 -0.055786583572626 -0.017803130671382" />
+    </vehicle>
+    <vehicle id="20" filename="data/vehicles/trailers/kuhn/kuhnProfile1880.xml" isAbsolute="true" dirtAmount="0.0045722266659141">
+       <component1 position="119.52536773682 147.87591552734 40.283729553223" rotation="2.8508372306824 -1.5496417284012 -2.8988974094391" />
+       <mixerWagonFillType1 fillLevel="0" />
+       <mixerWagonFillType2 fillLevel="0" />
+       <mixerWagonFillType3 fillLevel="0" />
+    </vehicle>
+    <vehicle id="21" modName="WaterMilkTrailer" filename="$moddir$WaterMilkTrailer/waterTrailer.xml" isAbsolute="true" fillLevel="0" fillType="unknown" dirtAmount="0.012525981822942">
+       <component1 position="115.92671203613 149.48028564453 -57.7431640625" rotation="3.1345789432526 0.011153443716466 3.1410145759583" />
+    </vehicle>
+    <vehicle id="22" filename="data/vehicles/steerable/cars/piQup.xml" isAbsolute="true" color="0.0101 0.0101 0.0101 1" fuelFillLevel="129.73803392699" cruiseControl="83" operatingTime="147.10838951874" dirtAmount="0.0041255376119704" followMe="10 0.0" gasLimiter="1" gearLimiter="1" workingHours="0.040863441532982" fourWheel="true" diffLockFront="true" diffLockBack="true" OverallFuelUsage="4.4095689695202" OverallFuelUsageFactor="570" OverallFuelUsed="3.7700382688625" GPSstoreInv="" >
+       <component1 position="189.85029602051 149.38917541504 -91.891441345215" rotation="0.10439247637987 -1.5209219455719 -0.10453691333532" />
+       <movingTool1 rotation="0"/>
+    </vehicle>
+    <item className="StopMilkSale.StopMilkSale" modName="StopMilkSale" filename="$moddir$StopMilkSale/StopMilkSale.xml" position="135.84820556641 149.498046875 -15.218399047852" rotation="0 0 0"/>
+    <item className="HighPressureWasher" filename="data/placeables/highPressureWasher/kaercher/kaercherHDS918-4M.xml" position="177.89030456543 149.35516357422 -100.61696624756" rotation="3.137677192688 -0.060052912682295 3.1190404891968"/>
+</careerVehicles>

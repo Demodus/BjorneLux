@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<Husbandry>
+	<nl>
+		<name>Rund</name>
+		<description>Voer je Runderen met regelmaat, dan kan je ze voor meer winst verkopen bij de slagerij</description>
+		
+	</nl>
+	<en>
+		<name>Cattle</name>
+		<description>Feed your cattle regularly, then you make more profit on the sale of cattle.</description>
+		
+	</en>
+    <de>
+		<name>Rind</name>
+		<description>Füttern Sie Ihre  Rinder regelmäßig, dann machen Sie mehr Profit beim Verkauf von  Rinder.</description>
+		
+	</de>
+	<imageActive>map/models/buildings/SchweineMast/beef_store.dds</imageActive>
+	<price>250</price>
+	<dailyUpkeep>1</dailyUpkeep>
+</Husbandry>

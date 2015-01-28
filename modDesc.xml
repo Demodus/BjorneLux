@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="21">
+    <author>Chesco,Div3rsion</author> 
+    <version>1.1</version>
+    <title>
+        <en>Bjornelux</en>
+        <de>Bjornelux</de>
+		<nl>Bjornelux</nl>
+    </title>
+    <description>
+        <en>This Scandinavian area is an important agricultural centre. This is Bjornelux.</en>
+        <de>Dieses Scandinavische gebiet ist ein wichtiges landwirtschaftliches Zentrum. Dies ist Bjornelux.</de>
+		<nl>Dit Scandinavisch gebied is een belangrijk Landbouwcentrum. Dit is Bjornelux.</nl>
+    </description>
+    <iconFilename>map_icon.png</iconFilename>
+    <multiplayer supported="true"/>
+	
+	<inputBindings>
+		<input name="OPEN_GATE" category="VEHICLE ONFOOT" key1="KEY_o" />
+	</inputBindings>
+	
+	
+	
+    <l10n>
+        <text name="sampleModMapBriefingText1">
+            <en>A total rebuild version of Bjornholm. All animals neatly at the farm and near it Pigs and beef. A lot of details added, lots of nature. More Realistic as it should be. Team BeneLux wishes you lots of fun on our map</en>
+            <de>Eine ganz umgebaute Version von Bjorn Holm. Die Tiere sind alle fein suerlich auf dem Bauernhof. Mehr Details und mehr realistisch. Das team Benelux wunsht Ihr viel Spass auf unseren map</de>
+	    <nl>Een volledig omgebouwde versie van Bjornholm. De beestjes allemaal netjes op de Boerderij en in de buurt ervan de varkens en Runderstallen. Vele details toegevoegd, heel veel nieuwe natuur, voor een realistischer gevoel zoals het zou moeten zijn. Team Benelux wenst je veel plezier op onze map</nl>
+        </text>
+        <text name="sampleModMapBriefingText2">
+            <en>You have taken over this farm from an uncle and will now have to work hard to create a successful business.</en>
+            <de>Sie haben diese Farm von einem Onkel ubernommen und solte jetz an arbeit gehen, um ein erfolgreiches Geschaft Ihres Unternehmens erstellen.</de>
+            <nl>Je hebt deze boerderij van een oom overgenomen en zal nu hard moeten werken om van je bedrijf een succesvolle onderneming te maken.</nl>
+		</text>
+        <text name="sampleModMapBriefingText3">
+            <en>On the farm you'll find everything you need to be BjornHolm's number one Agricultural Company with crops, milk, wool, Eggs , Beef and Pigs.
+			But do not forget the new task that awaits you. The execution of forestry. Take your chainsaw it and get plenty of wood for the local IKEA, and of course a stock
+			to keep the locals warm in the winter.Eggs can be sold at the local ALDI store. The butcher is located between de Diary and Aldi, where you can sell your lifestock.</en>
+            <de>Auf dem Bauernhof finden Sie alles, was Sie Bjorn Holm Nummer eins Ware zu mussen. Haben Beide Kulturen, Milch, Wolle und Eier Rinder und Schweine.
+			Aber vergessen Sie nicht die neue Aufgabe, die Sie erwartet. Die Ausfuhrung der Forstwirtschaft. Nehmen Sie Ihre Kettensage ist und sich viel Holz fur den lokalen IKEA , und naturlich ein Lager
+			die Einheimischen im Winter warm zu halten. Eier kann man am ALDI verkaufen. Das Slachthaus kann man finden zwichen Aldi und Die Milkabname</de>
+	    <nl>Op de boerderij vind je alles wat je nodig hebt om Bjornholm's nummer 1 in grondstoffen te worden. Zowel gewassen , als melk, wol en eieren alsook Runderen en Varkens.
+			Maar niet te vergeten is de nieuwe taak die je wacht. Het uitvoeren van bosbouw. Neem je kettingzaag mee en zorg voor voldoende hout voor de plaatselijke IKEA , en natuurlijk ook een voorraad
+			om de plaatselijke bevolking warm te houden in de winter. Eieren kan men bij de aldi verkopen, Varkens en Rund naast de Aldi aan de slagerij</nl>
+        </text>
+		
+<!-- GuelleMistMod l10n -->		
+		<text name="manure"> <en>manure</en> <de>Mist</de> </text>
+		<text name="liquidManure"> <en>liquid Manure</en> <de>Guelle</de> </text>
+		<text name="kalkSolid"> <en>lime</en> <de>Kalk</de> </text>
+
+<!-- chopped Straw l10n -->
+		<text name="choppedStraw">
+		<en>Chopped Straw</en><de>Gehäckseltes Stroh</de>
+		</text>
+		<text name="choppedMaize">
+		<en>Chopped maize</en><de>Gehäckselter Mais</de>
+		</text>
+		<text name="choppedRape">
+		<en>Chopped rape</en><de>Gehäckselter Raps</de>
+		</text>
+	
+<!-- AnimationMapTrigger l10n -->	
+		<text name="string_OPEN"><en>open</en><nl>openen</nl><de>öffnen</de></text>
+		<text name="string_CLOSE"><en>close</en><nl>sluiten</nl><de>schließen</de></text>
+		<text name="string_ON"><en>switch on</en><nl>inschakelen</nl><de>anschalten</de></text>
+		<text name="string_OFF"><en>switch off</en><nl>uitschakelen</nl><de>ausschalten</de></text>
+		<text name="string_BARRIER"><en>barrier</en><nl>barier</nl><de>Schranke</de></text>
+		<text name="string_GATE"><en>gate</en><nl>deur</nl><de>Tor</de></text>
+		<text name="string_LIGHT"><en>light</en><nl>Licht</nl><de>Licht</de></text>
+		<text name="string_DEFAULT"><en>gate/barrier</en><en>poort/barier</en><de>Tor/Schranke</de></text>
+		<text name="OPEN_GATE"><en>Open/close gate/door</en><en>Openen/Sluiten Poort/deur</en><de>Tor/Schranke öffnen/schließen</de></text>
+
+<!--Varkens & Runderen-->
+		<text name="MASeite"><en>Fattening installations page</en><nl>Vetmesterij</nl><de>Mastanlagen Seite</de></text>
+		<text name="pig"><en>Pig</en><nl>Varken</nl><de>Schwein</de></text>
+		<text name="pig_amount"><en>Pigs</en><nl>Varkens</nl><de>Schweinebestand</de></text>
+		<text name="buy_amount"><en>Ready for Market</en><nl>slachtrijp</nl><de>Schlachtreif</de></text>
+		<text name="grain_fruits"><en>Grain</en><nl>Graan</nl><de>Getreide</de></text>
+		<text name="earth_fruits"><en>Root Crops</en><nl>Knolgewassen</nl><de>Erdfrüchte</de></text>
+		<text name="Silo_fruits"><en>Hay</en><nl>Kuilvoer</nl><de>Silofutter</de></text>
+		<text name="beef"><en>Beef Cattle</en><en>Rund</en><de>Rind</de> </text>
+		<text name="beef_amount"><en>Cows</en><nl>Runderen</nl><de>Rinderbestand</de></text>
+	
+	</l10n>
+	   
+	<extraSourceFiles>
+		<sourceFile filename="map/models/objects/WaterMod/WaterMod.lua" />
+		<sourceFile filename="map/scripts/GMM_Reg.lua" />			
+		<sourceFile filename="map/choppedStraw/fruits.lua" />
+		<sourceFile filename="map/scripts/ManualBarrier.lua" />
+		<sourceFile filename="map/scripts/ManualBarrierManager.lua" />
+		
+	<!--Varkens & runderen-->
+		<sourceFile filename="map/scripts/RegFillTypes.lua"/>
+		<sourceFile filename="map/scripts/SchweineZucht.lua"/>
+
+		<sourceFile filename="map/scripts/DigitalAmountMover.lua" />
+		
+	<!--Wolcollector-->
+		<sourceFile filename="map/scripts/WoolPaletteCollector.lua" />	
+		
+	<!--HotairBaloon-->
+		<sourceFile filename="map/scripts/hotairballoon.lua"/>
+	</extraSourceFiles>
+
+    <maps>
+        <map id="SampleModMap" className="SampleModMap" filename="SampleModMap.lua" defaultVehiclesXMLFilename="defaultVehicles.xml">
+            <title>
+                <en>Bjornelux</en>
+                <de>Bjornelux</de>
+				<nl>Bjornelux</nl>
+            </title>
+            <description>
+                <en>This Scandinavian area is an important agricultural centre. This is Bjornelux.</en>
+       	        <de>Dieses Scandinavische gebiet ist ein wichtiges landwirtschaftliches Zentrum. Dies ist Bjornelux.</de>
+				<nl>Dit Scandinavisch gebied is een belangrijk Landbouwcentrum. Dit is Bjornelux.</nl>
+            </description>
+            <briefingImagePrefix>sampleModMap</briefingImagePrefix>
+            <briefingTextPrefix>sampleModMap</briefingTextPrefix>
+            <iconFilename>map_preview.png</iconFilename>
+        </map>
+    </maps>
+
+</modDesc>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="offsetUV" target="offsetUV" type="float4" defaultValue="0 0 0 0"/>
+    </Parameters>
+    <Variations>
+        <Variation name = "UV_SCROLL">
+<![CDATA[
+    #define UV_SCROLL
+]]>
+        </Variation>
+    </Variations>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="MATERIALINFO">
+<![CDATA[
+#if defined( ALPHA_TESTED )
+    #undef ALPHA_TESTED    
+#endif
+#if defined( UV_SCROLL )
+    uniform float4 offsetUV;
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="POST_SET_TEXCOORDS_VS">
+<![CDATA[
+#if defined( UV_SCROLL )
+    #if defined(ALBEDO_MAP) || defined(EMISSIVE_MAP)
+        float2 uv = getDefaultTexCoords(In);
+        uv += offsetUV.xy;
+        Out.defaultTexCoords = uv;
+    #endif
+#endif
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<AnimationMap>
+	<!-- check trigger info (printed in log)
+	<Config debug="true" />
+	-->
+	
+	<!-- GlobalTexts tags only work if xml file is placed in map folder. -->
+	<GlobalTexts>
+		<text name="My_Map_text_1" />
+		<text name="My_Map_text_2" />
+	</GlobalTexts>
+	 
+	<Huds>
+		<!-- It will search the mod where the xml file is located for the hud file, leaving the line below will result in that the default "door_hud" will be overwritten by yours. -->
+		<Hud name="door_hud" filename="Map/Huds/OpenDoorTrigger_hud.dds" x="0.92" y="0.185" width="0.056" height="0.08" />
+	</Huds>
+</AnimationMap>

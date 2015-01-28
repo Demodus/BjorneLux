@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="untitled" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="6.0.2"/>
+  </Asset>
+
+  <Files>
+    <File fileId="1" filename="Bark.bmp" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="Bark20" materialId="6" ambientColor="1 1 1">
+      <Texture fileId="1"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="shrub10.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="hecke_1" nodeId="14">
+      <Shape shapeId="1" name="Shrub__1" static="true" clipDistance="720" nodeId="10" materialIds="6" castsShadows="true" receiveShadows="true"/>
+      <Shape shapeId="1" name="Shrub__1" translation="0.95975 0 0" rotation="0 18.7216 0" static="true" clipDistance="720" nodeId="15" materialIds="6" castsShadows="true" receiveShadows="true"/>
+      <Shape shapeId="1" name="Shrub__1" translation="-0.940836 0 0" rotation="0 -22.3357 0" static="true" clipDistance="720" nodeId="16" materialIds="6" castsShadows="true" receiveShadows="true"/>
+      <Shape shapeId="1" name="Shrub__1" translation="-1.95661 0 0" rotation="0 36.0731 0" static="true" clipDistance="720" nodeId="17" materialIds="6" castsShadows="true" receiveShadows="true"/>
+      <Shape shapeId="1" name="Shrub__1" translation="1.90535 0 0" rotation="0 -17.1714 0" static="true" clipDistance="720" nodeId="18" materialIds="6" castsShadows="true" receiveShadows="true"/>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

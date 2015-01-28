@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+    </Parameters>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="GET_DIFFUSE_LIGHTING_FS">
+<![CDATA[
+{
+    float NdotL = dot(normal, lightDir);
+    if (NdotL < 0) {
+        NdotL = -NdotL*0.35;
+    }
+    NdotL = min(NdotL, 1);
+    return (NdotL * atten) * lightColor;
+}
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

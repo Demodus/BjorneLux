@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="untitled" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="6.0.2"/>
+  </Asset>
+
+  <Files>
+    <File fileId="2" filename="textures/guardbarrier_diffuse.dds" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="UnnamedMaterial" materialId="6" diffuseColor="1 1 1 1" ambientColor="1 1 1" cosPower="150" specularColor="1 1 1">
+    </Material>
+    <Material name="mat" materialId="7" ambientColor="1 1 1">
+      <Texture fileId="2"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="barrier_double_manual.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="barrier" nodeId="15">
+      <Shape shapeId="1" name="barrier_Trigger" static="true" trigger="true" collisionMask="15737282" clipDistance="240" nodeId="16" materialIds="6" castsShadows="true" receiveShadows="true" nonRenderable="true">
+        <Shape shapeId="2" name="guardBarrier" translation="-5.5 -1 0" static="true" clipDistance="240" nodeId="17" materialIds="7" castsShadows="true" receiveShadows="true">
+          <Shape shapeId="3" name="guardBarrierBarrier" translation="0 1.00718 0" rotation="-5.68003e-007 -5.00684e-006 0" kinematic="true" clipDistance="240" nodeId="18" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        </Shape>
+        <Shape shapeId="2" name="guardBarrier" translation="5.5 -1 0" rotation="0 180 0" static="true" clipDistance="240" nodeId="19" materialIds="7" castsShadows="true" receiveShadows="true">
+          <Shape shapeId="3" name="guardBarrierBarrier" translation="0 1.00718 0" rotation="1.4919e-006 7.99226e-007 0" kinematic="true" clipDistance="240" nodeId="20" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        </Shape>
+      </Shape>
+    </TransformGroup>
+  </Scene>
+
+  <UserAttributes>
+    <UserAttribute nodeId="15">
+      <Attribute name="manualBarrierId" type="integer" value="3"/>
+      <Attribute name="manualOpen" type="boolean" value="true"/>
+      <Attribute name="maxZAngle" type="float" value="90"/>
+      <Attribute name="minZAngle" type="float" value="0"/>
+      <Attribute name="onCreate" type="scriptCallback" value="modOnCreate.ManualBarrier"/>
+      <Attribute name="string_Close" type="string" value="string_CLOSE"/>
+      <Attribute name="string_Name" type="string" value="string_BARRIER"/>
+      <Attribute name="string_Open" type="string" value="string_OPEN"/>
+      <Attribute name="triggerIndex" type="string" value="0>0"/>
+      <Attribute name="typeBarrier" type="boolean" value="true"/>
+    </UserAttribute>
+  </UserAttributes>
+
+</i3D>

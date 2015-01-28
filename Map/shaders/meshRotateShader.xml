@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Variations>
+        <Variation name = "LIGHT">
+<![CDATA[
+    #define LIGHT
+]]>
+        </Variation>
+    </Variations>
+    <Parameters>
+        <Parameter name = "rotationSpeed" target = "rotationSpeed" type = "float4" defaultValue = "0.0 1.0 0.0 1.0" />
+    </Parameters>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position = "MATERIALINFO">
+<![CDATA[
+    /*
+    rotationSpeed.x - 0 or 1 rotation along X axis
+    rotationSpeed.y - 0 or 1 rotation along Y axis
+    rotationSpeed.z - 0 or 1 rotation along Z axis
+    rotationSpeed.w - speed
+    */
+    uniform float4 rotationSpeed;
+    
+float2 m_getRotationSinCos()
+{
+    float mTime = rotationSpeed.w * cTime_s;
+    float2 mSinCos; 
+    // compute sin and cos for this angle 
+    sincos( mTime, mSinCos.x, mSinCos.y ); 
+    return mSinCos;
+}
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_POSITION_VS">
+<![CDATA[
+//         Ry                                   Rx                               Rz
+// [ cos(time)   0   -sin(time)]      [ 1        0        0      ]     [ cos(time) -sin(time)  0]
+// [    0        1       0     ]      [ 0 cos(time)    -sin(time)]     [ sin(time)  cos(time)  0]
+// [ sin(time)   0    cos(time)]      [ 0 sin(time)     cos(time)]     [ 0             0       1]
+    float mSpeed = rotationSpeed.w * cTime_s;
+    float3 mDeformedPositionX = In.position.xyz;
+    float3 mDeformedPositionY = In.position.xyz;
+    float3 mDeformedPositionZ = In.position.xyz;
+
+    float2 mSinCos = m_getRotationSinCos();
+
+    mDeformedPositionX.y = dot( In.position.yz, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionX.z = dot( In.position.yz, float2( mSinCos.x,  mSinCos.y ) );
+
+    mDeformedPositionY.x = dot( In.position.xz, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionY.z = dot( In.position.xz, float2( mSinCos.x,  mSinCos.y ) );
+
+    mDeformedPositionZ.x = dot( In.position.xy, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionZ.y = dot( In.position.xy, float2( mSinCos.x,  mSinCos.y ) );
+
+    float3 mResultPosition;
+    mResultPosition = mDeformedPositionX * rotationSpeed.x;
+    mResultPosition += mDeformedPositionY * rotationSpeed.y;
+    mResultPosition += mDeformedPositionZ * rotationSpeed.z;
+
+    return float4( mResultPosition, 1.0 );
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_NORMAL_VS">
+<![CDATA[
+//         Ry                                   Rx                               Rz
+// [ cos(time)   0   -sin(time)]      [ 1        0        0      ]     [ cos(time) -sin(time)  0]
+// [    0        1       0     ]      [ 0 cos(time)    -sin(time)]     [ sin(time)  cos(time)  0]
+// [ sin(time)   0    cos(time)]      [ 0 sin(time)     cos(time)]     [ 0             0       1]
+    float mSpeed = rotationSpeed.w * cTime_s;
+    float3 mDeformedPositionX = In.normal.xyz;
+    float3 mDeformedPositionY = In.normal.xyz;
+    float3 mDeformedPositionZ = In.normal.xyz;
+
+    float2 mSinCos = m_getRotationSinCos();
+
+    mDeformedPositionX.y = dot( In.normal.yz, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionX.z = dot( In.normal.yz, float2( mSinCos.x,  mSinCos.y ) );
+
+    mDeformedPositionY.x = dot( In.normal.xz, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionY.z = dot( In.normal.xz, float2( mSinCos.x,  mSinCos.y ) );
+
+    mDeformedPositionZ.x = dot( In.normal.xy, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionZ.y = dot( In.normal.xy, float2( mSinCos.x,  mSinCos.y ) );
+
+    float3 mResultPosition;
+    mResultPosition = mDeformedPositionX * rotationSpeed.x;
+    mResultPosition += mDeformedPositionY * rotationSpeed.y;
+    mResultPosition += mDeformedPositionZ * rotationSpeed.z;
+
+    return mResultPosition;
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_TANGENT_VS">
+<![CDATA[
+//         Ry                                   Rx                               Rz
+// [ cos(time)   0   -sin(time)]      [ 1        0        0      ]     [ cos(time) -sin(time)  0]
+// [    0        1       0     ]      [ 0 cos(time)    -sin(time)]     [ sin(time)  cos(time)  0]
+// [ sin(time)   0    cos(time)]      [ 0 sin(time)     cos(time)]     [ 0             0       1]
+    float mSpeed = rotationSpeed.w * cTime_s;
+    float3 mDeformedPositionX = In.tangent.xyz;
+    float3 mDeformedPositionY = In.tangent.xyz;
+    float3 mDeformedPositionZ = In.tangent.xyz;
+
+    float2 mSinCos = m_getRotationSinCos();
+
+    mDeformedPositionX.y = dot( In.tangent.yz, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionX.z = dot( In.tangent.yz, float2( mSinCos.x,  mSinCos.y ) );
+
+    mDeformedPositionY.x = dot( In.tangent.xz, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionY.z = dot( In.tangent.xz, float2( mSinCos.x,  mSinCos.y ) );
+
+    mDeformedPositionZ.x = dot( In.tangent.xy, float2( mSinCos.y, -mSinCos.x ) );
+    mDeformedPositionZ.y = dot( In.tangent.xy, float2( mSinCos.x,  mSinCos.y ) );
+
+    float3 mResultPosition;
+    mResultPosition = mDeformedPositionX * rotationSpeed.x;
+    mResultPosition += mDeformedPositionY * rotationSpeed.y;
+    mResultPosition += mDeformedPositionZ * rotationSpeed.z;
+
+    return mResultPosition;
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_BITANGENT_VS">
+<![CDATA[
+    return cross(getNormal(In), getTangent(In))*In.tangent.w;
+]]>
+            </CodeInjection>
+            <CodeInjection position="FINAL_POS_FS">
+<![CDATA[
+#if defined( LIGHT ) && defined( ALPHA_BLENDED )
+    oColor.a = 0.0f; // additive blending
+#endif
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

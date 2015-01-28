@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="alphaBlendStartEnd" target="alphaBlendStartEnd" type="float3" defaultValue="70 75 0 0" />
+    </Parameters>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="NUM_TEXCOORDS">
+<![CDATA[
+#if defined(SPECULAR)
+#undef SPECULAR
+#endif
+#if (defined(AMBIENT) || defined(DIFFUSE) || defined(SPECULAR))
+#define FOLIAGE_COLOR_OUTPUT
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="CONFIG_DEFINES">
+<![CDATA[
+#if defined(_NO_TANGENTSPACE_LIGHT) && (NUM_DIRECTIONAL_LIGHTS > 0) && defined(DIFFUSE)
+#define VERTEX_DIRLIGHT_LIGHTING
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_POSITION_VS">
+<![CDATA[
+float3 position1 = In.position.xyz * float3(16.0, 16.0, 16.0); // get mesh XYZ
+position1 *= In.color.xyx * 8;	// scale by widthScale & heightScale
+float3 position = rotateVectorToTerrainNormal(In, rotateFoliageVector(In, position1, In.blendWeights.w*3.1415926), In.texCoords1.xyz - 0.5);
+position += In.blendWeights.xyz * float3(2048,256,2048) + float3(0,256,0);	// add blockPositionX,Y,Z
+return float4(position,1);
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_NORMAL_VS">
+<![CDATA[
+#ifdef FOLIAGE_COLOR_OUTPUT
+	float3 normal = float3(In.position.w, In.texCoords0.zw); // get mesh normal
+    return rotateVectorToTerrainNormal(In, rotateFoliageVector(In, normal, In.blendWeights.w*3.1415926), In.texCoords1.xyz - 0.5);
+#endif
+]]>
+            </CodeInjection>
+			<CodeInjection position="GET_DEFAULT_TEXCOORDS_VS">
+<![CDATA[
+return getFoliageTexCoords(In);
+]]>
+			</CodeInjection>
+			<CodeInjection position="NEED_FS_NORMAL">
+<![CDATA[
+//#if defined(_NEED_FS_NORMAL)
+//#undef _NEED_FS_NORMAL
+//#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="MATERIALINFO">
+<![CDATA[
+#if defined(FOLIAGE_COLOR_OUTPUT)
+    //float4 bumpSpeedScale;
+#endif
+uniform float4 alphaBlendStartEnd;
+]]>
+            </CodeInjection>
+            <CodeInjection position="VS_OUTPUT">
+<![CDATA[
+float alphaScale : TEXCOORDn;
+#for (i=0,(NUM_DIRECTIONAL_LIGHTS-1)) (float3 CONCAT(dirVertexLighting,i) : TEXCOORDn;)
+]]>
+            </CodeInjection>
+            <CodeInjection position="VS_END">
+<![CDATA[
+//Out.alphaScale = 1 + saturate((length(viewDir)-alphaBlendStartEnd.x)/(alphaBlendStartEnd.y-alphaBlendStartEnd.x))*alphaBlendStartEnd.z;
+
+Out.alphaScale = 1.0 - saturate((length(viewDir)-(alphaBlendStartEnd.x))/(alphaBlendStartEnd.y-alphaBlendStartEnd.x));
+//Out.alphaScale = 1.0 - saturate((length(viewDir)-60)/(80-60));
+
+#ifdef VERTEX_DIRLIGHT_LIGHTING
+    #for (i=0,(NUM_DIRECTIONAL_LIGHTS-1)) ( 
+        { float NdotL = saturate(dot(-dirLightDirections[i].xyz, worldNormal.xyz));
+        CONCAT(Out.dirVertexLighting,i) = NdotL*diffuseColors[i].xyz; }
+    )
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="POST_ALBEDO_FS">
+<![CDATA[
+albedo.w *= In.vs.alphaScale;
+]]>
+            </CodeInjection>
+            <CodeInjection position="DIFFUSE_LIGHTING_DIR_FS">
+<![CDATA[
+#ifdef VERTEX_DIRLIGHT_LIGHTING
+#for (loopI=0,(NUM_DIRECTIONAL_LIGHTS-1)) ( if (loopI == dirLightI) { return CONCAT(In.vs.dirVertexLighting,loopI).xyz*atten; } )
+#endif
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

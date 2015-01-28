@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="VS_END">
+<![CDATA[
+{
+// this assumes z = 0
+float3 camY = float3(modelViewMatrix[0][1], modelViewMatrix[1][1], modelViewMatrix[2][1])*In.position.y;
+float3 camTrans = float3(modelViewMatrix[0][3], modelViewMatrix[1][3], modelViewMatrix[2][3]);
+float3 pos = camY + camTrans;
+pos.x += In.position.x;
+Out.position = mul( projMatrix, float4(pos, 1));
+}
+]]>
+            </CodeInjection>
+            <CodeInjection position="POST_GET_NORMALS_VS">
+<![CDATA[
+{
+float3 tangent = getTangent(In);
+float tangentSide = In.tangent.w;
+float3 bitangent = getBitangent(In);
+float3 normal = getNormal(In);
+
+// hardcode for opts.
+normal = float3(0,0,1);
+tangent = float3(1,0,0);
+tangentSide = 1;
+
+worldNormal.xz = mul((float3x3)invViewMatrix, float3(normal.x, normal.y, normal.z)).xz;
+worldNormal.y = mul((float3x3)modelMatrix, float3(0, normal.y, 0)).y;
+worldNormal = normalize(worldNormal);
+
+worldTangent.xz = mul((float3x3)invViewMatrix, float3(tangent.x, tangent.y, tangent.z)).xz;
+worldTangent.y = mul((float3x3)modelMatrix, float3(0, tangent.y, 0)).y;
+worldTangent = normalize(worldTangent);
+
+
+worldBitangent = normalize(cross(worldNormal.xyz, worldTangent.xyz)*tangentSide);
+}
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+  <Parameters>
+    <Parameter name="terrainLayerRepeat" target="terrainLayerRepeat" type="float4" />
+    <Parameter name="terrainLayerPlanes" target="terrainLayerPlanes" type="float4" />
+    <Parameter name="terrainLodBlendInfos" target="terrainLodBlendInfos" type="float4" />
+    <Parameter name="terrainSizeInvSizeScaleXZScaleY" target="terrainSizeInvSizeScaleXZScaleY" type="float4" />
+    <Parameter name="terrainStartXZScaleXZ" target="terrainStartXZScaleXZ" type="float4" />
+    <Parameter name="terrainPatchScale" target="terrainPatchScale" type="float" />
+    <Parameter name="scaleramp0102" target="scaleramp0102" type="float4" />
+    <Parameter name="scaleramp0312" target="scaleramp0312" type="float4" />
+    <Parameter name="scaleramp1323" target="scaleramp1323" type="float4" />
+  </Parameters>
+  <Textures>
+    <Texture name="layer0Map" defaultColorProfile="sRGB"/>
+    <Texture name="layer1Map" defaultColorProfile="sRGB"/>
+    <Texture name="layer2Map" defaultColorProfile="sRGB"/>
+    <Texture name="layer3Map" defaultColorProfile="sRGB"/>
+    <Texture name="layer0NormalMap" defaultColorProfile="linearRGB"/>
+    <Texture name="layer1NormalMap" defaultColorProfile="linearRGB"/>
+    <Texture name="layer2NormalMap" defaultColorProfile="linearRGB"/>
+    <Texture name="layer3NormalMap" defaultColorProfile="linearRGB"/>
+    <Texture name="weightsMap" defaultColorProfile="linearRGB"/>
+    <Texture name="lodMap" defaultColorProfile="sRGB"/>
+    <Texture name="lodNormalMap" defaultColorProfile="linearRGB"/>
+    <Texture name="infoLayerMap" defaultColorProfile="linearRGB"/>
+  </Textures>
+  <LodLevel startDistance="0" depthVizMode="noncustom" subsequentPassForceMode="use">
+    <CodeInjections>
+      <CodeInjection position="NO_TANGENTSPACE">
+        <![CDATA[
+#define BASE_TERRAIN_NORMAL_MAP_BYTES_PER_PIXEL     2
+]]>
+      </CodeInjection>
+      <CodeInjection position="SHARED_START">
+        <![CDATA[
+#define INTEGER_POSITION
+]]>
+      </CodeInjection>
+      <CodeInjection position="VS_UNIFORM_INPUT">
+        <![CDATA[
+uniform float4 terrainLayerRepeat;
+uniform float4 terrainLayerPlanes;
+uniform float4 terrainLodBlendInfos;
+uniform float4 terrainSizeInvSizeScaleXZScaleY;
+uniform float4 terrainStartXZScaleXZ;
+uniform float  terrainPatchScale;
+#if defined(NONLINEAR_WEIGHTS)
+uniform float4 scaleramp0102;
+uniform float4 scaleramp0312;
+uniform float4 scaleramp1323;
+#endif
+]]>
+      </CodeInjection>
+      <CodeInjection position="VS_OUTPUT">
+        <![CDATA[
+#if NUM_DETAIL_LAYERS > 0
+  float2 terrainLayer0TexCoords : TEXCOORDn;
+#endif
+#if NUM_DETAIL_LAYERS > 1
+  float2 terrainLayer1TexCoords : TEXCOORDn;
+#endif
+#if NUM_DETAIL_LAYERS > 2
+  float2 terrainLayer2TexCoords : TEXCOORDn;
+#endif
+#if NUM_DETAIL_LAYERS > 3
+  float2 terrainLayer3TexCoords : TEXCOORDn;
+#endif
+#if NUM_DETAIL_LAYERS > 0
+  float2 terrainBlendWeightsTexCoords : TEXCOORDn;
+#endif
+float2 normalMapTexCoords : TEXCOORDn;
+#if (NUM_DETAIL_LAYERS > 0) && defined(USE_LOD_MAP)
+  float terrainLodMapWeight0 : TEXCOORDn;
+  float terrainLodMapWeight1 : TEXCOORDn;
+#endif
+]]>
+      </CodeInjection>
+      <CodeInjection position="POST_SET_TEXCOORDS_VS">
+        <![CDATA[
+float4 inPos = float4(In.position);
+//float2 tmpPosXZ = (In.position.xz*32767.0*terrainSizeInvSizeScaleXZScaleY.y  + 0.5 * terrainSizeInvSizeScaleXZScaleY.yy
+        
+//float2 terrainTexCoords =  tmpPosXZ * terrainSizeInvSizeScaleXZScaleY.y;
+float2 terrainTexCoords = inPos.xz * terrainSizeInvSizeScaleXZScaleY.y;
+Out.defaultTexCoords = terrainTexCoords.xy;
+Out.normalMapTexCoords = terrainTexCoords.xy + 0.5 * terrainSizeInvSizeScaleXZScaleY.yy;
+
+#if NUM_DETAIL_LAYERS > 0
+  Out.terrainLayer0TexCoords = terrainTexCoords.xy * terrainLayerRepeat[0];
+#endif
+#if NUM_DETAIL_LAYERS > 1
+  Out.terrainLayer1TexCoords = terrainTexCoords.xy * terrainLayerRepeat[1];
+#endif
+#if NUM_DETAIL_LAYERS > 2
+  Out.terrainLayer2TexCoords = terrainTexCoords.xy * terrainLayerRepeat[2];
+#endif
+#if NUM_DETAIL_LAYERS > 3
+  Out.terrainLayer3TexCoords = terrainTexCoords.xy * terrainLayerRepeat[3];
+#endif
+#if NUM_DETAIL_LAYERS > 0
+  Out.terrainBlendWeightsTexCoords = ((inPos.xz - terrainStartXZScaleXZ.xy) * terrainPatchScale - 0.5) * terrainStartXZScaleXZ.zw + 0.5;
+#endif
+]]>
+      </CodeInjection>
+      <CodeInjection position="GET_POSITION_VS">
+        <![CDATA[
+float4 inPos = float4(In.position);
+float4  pos;
+//pos.xz = (float4(In.position).xz-terrainSizeInvSizeScaleXZScaleY.x) * terrainSizeInvSizeScaleXZScaleY.z;
+//pos.y = (float4(In.position).y + 1.0) * terrainSizeInvSizeScaleXZScaleY.w;
+pos.xz = (inPos.xz - 0.5 * terrainSizeInvSizeScaleXZScaleY.x) * terrainSizeInvSizeScaleXZScaleY.z;
+pos.y = (inPos.y + 32768) * terrainSizeInvSizeScaleXZScaleY.w;
+pos.w = 1;
+return pos;
+]]>
+      </CodeInjection>
+      <CodeInjection position="VS_END">
+      <![CDATA[
+#if (NUM_DETAIL_LAYERS > 0) && defined(USE_LOD_MAP)
+  float viewDistance = length(viewDir);
+  Out.terrainLodMapWeight0 = saturate((viewDistance-terrainLodBlendInfos.x)*terrainLodBlendInfos.y);
+  Out.terrainLodMapWeight1 = saturate((viewDistance-terrainLodBlendInfos.z)*terrainLodBlendInfos.w);
+#endif
+]]>         
+      </CodeInjection>
+      <CodeInjection position="SAMPLERS">
+        <![CDATA[
+sampler2D layer0Map;
+sampler2D layer1Map;
+sampler2D layer2Map;
+sampler2D layer3Map;
+#if defined(NORMAL_MAPPING)
+sampler2D layer0NormalMap;
+sampler2D layer1NormalMap;
+sampler2D layer2NormalMap;
+sampler2D layer3NormalMap;
+#endif
+sampler2D weightsMap;
+sampler2D lodMap;
+sampler2D lodNormalMap;
+#ifdef SHOW_TERRAIN_INFO_LAYER
+  sampler2D infoLayerMap;
+#endif
+]]>
+      </CodeInjection>
+      <CodeInjection position="LIB_FUNCTION_FS">
+        <![CDATA[ 
+float3 getNormal(FS_INPUT In)
+{
+#if BASE_TERRAIN_NORMAL_MAP_BYTES_PER_PIXEL == 2
+  float3 worldNormal;
+  worldNormal.xz = tex2D(lodNormalMap, In.vs.normalMapTexCoords).xw*2-1; // LA8 stores X,Z
+  worldNormal.y = sqrt(max(0, 1 - dot(worldNormal.xz, worldNormal.xz)));
+  return worldNormal;
+#else
+  return normalize(tex2D(lodNormalMap, In.vs.normalMapTexCoords).xyz-0.5);
+#endif
+}
+
+#if defined(NORMAL_MAPPING)
+float3 getTangent(float3 n)
+{
+  float3 X = float3(n.y,-n.x,0);  // perpendicular to n and roughly along (1,0,0)
+  float3 Z = float3(0,-n.z,n.y);  // perpendicular to n and roughly along (0,0,1)
+  // but X and Z are not perpendicular, because the angle between them is not 90
+  // but X + Z is still perpendicular to n, and it is the midpoint of the desired vectors
+  float3 XZ = X+Z;
+  float3 XZp = cross(n, XZ);      // this is perpendicular to n and XZ so it's 45 to the other side of one vector
+                                  // (this also has the same length as XZ because |cross(n,XZ)| = |n||XZ|sin(theta) = |XZ|)
+  return normalize(XZ + XZp);     // so the average is the tangent
+}
+#endif
+
+#if NUM_DETAIL_LAYERS > 0
+float3 getLerpWeights(FS_INPUT In)
+{
+#if NUM_DETAIL_LAYERS == 1
+  return float3(0,0,0); // trivial
+#endif
+  
+  // get the weights from linear interpolation
+  float4 terrainBlendWeights = tex2D(weightsMap, In.vs.terrainBlendWeightsTexCoords).wzyx;
+  
+  // normalize, and clear invalid weights to help the optimizer
+#if NUM_DETAIL_LAYERS == 4
+  terrainBlendWeights /= dot(terrainBlendWeights, float4(1,1,1,1));
+#elif NUM_DETAIL_LAYERS == 3
+  terrainBlendWeights /= dot(terrainBlendWeights, float4(1,1,1,0));
+  terrainBlendWeights.w = 0;
+#else
+  terrainBlendWeights /= dot(terrainBlendWeights, float4(1,1,0,0));
+  terrainBlendWeights.zw = 0;
+#endif
+
+  // go from blend weights to prioritized blends
+  float3  w;
+  w.z = terrainBlendWeights[3];
+  w.y = (w.z < 1) ? terrainBlendWeights[2] / (1 - w.z) : 0;
+  w.x = ((w.z < 1) && (w.y < 1)) ? terrainBlendWeights[1] / ((1 - w.z) * (1 - w.y)) : 0;
+
+#if !defined(NONLINEAR_WEIGHTS)
+  return w;
+#else
+  float3  offset = float3(0,0,0);
+  float3  ramp = float3(1,1,1);
+
+  float alpha0 = tex2D(layer0Map, In.vs.terrainLayer0TexCoords).a;
+  float scale01 = scaleramp0102.x;
+  float ramp01 = scaleramp0102.y;
+  offset.x = alpha0 * scale01;
+  ramp.x = ramp01;
+
+#if NUM_DETAIL_LAYERS > 2
+  float alpha1 = tex2D(layer1Map, In.vs.terrainLayer1TexCoords).a;
+  float scale02 = scaleramp0102.z;
+  float ramp02 = scaleramp0102.w;
+  float scale12 = scaleramp0312.z;
+  float ramp12 = scaleramp0312.w;
+  float totalWeight2 = dot(terrainBlendWeights, float4(1,1,0,0));
+  if (totalWeight2 > 0) {
+    offset.y = (alpha0 * scale02 * terrainBlendWeights.x + alpha1 * scale12 * terrainBlendWeights.y) / totalWeight2;
+    ramp.y = (ramp02 * terrainBlendWeights.x + ramp12 * terrainBlendWeights.y) / totalWeight2;  
+  }
+#endif
+
+#if NUM_DETAIL_LAYERS > 3
+  float alpha2 = tex2D(layer2Map, In.vs.terrainLayer2TexCoords).a;
+  float scale03 = scaleramp0312.x;
+  float ramp03 = scaleramp0312.y;
+  float scale13 = scaleramp1323.x;
+  float ramp13 = scaleramp1323.y;
+  float scale23 = scaleramp1323.z;
+  float ramp23 = scaleramp1323.w;
+  float combinedOffset3 = 0;
+  float combinedRamp3 = 1;
+  float totalWeight3 = dot(terrainBlendWeights, float4(1,1,1,0));
+  if (totalWeight3 > 0) {
+    offset.z = (alpha0 * scale03 * terrainBlendWeights.x + alpha1 * scale13 * terrainBlendWeights.y + alpha2 * scale23 * terrainBlendWeights.z) / totalWeight3;
+    ramp.z = (ramp03 * terrainBlendWeights.x + ramp13 * terrainBlendWeights.y + ramp23 * terrainBlendWeights.z) / totalWeight3;
+  }
+#endif
+
+  // force scale so that if the offset is high it still hits (1,1)
+  ramp = max(ramp, 1 / (1 - offset));
+  return saturate((w - offset) * ramp);
+#endif
+}
+#endif
+
+#if NUM_DETAIL_LAYERS > 0
+float3 getBlendedColor(FS_INPUT In)
+{
+  float3 lerpWeights = getLerpWeights(In);
+  float3 layersColor = tex2D(layer0Map, In.vs.terrainLayer0TexCoords).xyz;
+#if NUM_DETAIL_LAYERS > 1
+  layersColor = lerp(layersColor, tex2D(layer1Map, In.vs.terrainLayer1TexCoords).xyz, lerpWeights.x);
+#endif
+#if NUM_DETAIL_LAYERS > 2
+  layersColor = lerp(layersColor, tex2D(layer2Map, In.vs.terrainLayer2TexCoords).xyz, lerpWeights.y);
+#endif
+#if NUM_DETAIL_LAYERS > 3
+  layersColor = lerp(layersColor, tex2D(layer3Map, In.vs.terrainLayer3TexCoords).xyz, lerpWeights.z);
+#endif
+#if defined(USE_LOD_MAP)
+  float4 lodColor = tex2D(lodMap, In.vs.defaultTexCoords);
+  float lodMapWeight = max(In.vs.terrainLodMapWeight0, In.vs.terrainLodMapWeight1*lodColor.w);
+  layersColor = lerp(layersColor, lodColor.xyz, lodMapWeight);
+#endif
+  return layersColor;
+}
+#elif defined(USE_LOD_MAP)
+float3 getBlendedColor(FS_INPUT In)
+{
+  return tex2D(lodMap, In.vs.defaultTexCoords).xyz;
+}
+#endif
+
+#if (NUM_DETAIL_LAYERS > 0) && defined(NORMAL_MAPPING)
+float3 getBlendedNormal(FS_INPUT In)
+{
+  float3 lerpWeights = getLerpWeights(In);
+
+  float2 layersNormal = tex2D(layer0NormalMap, In.vs.terrainLayer0TexCoords).xy;
+#if NUM_DETAIL_LAYERS > 1
+  layersNormal = lerp(layersNormal, tex2D(layer1NormalMap, In.vs.terrainLayer1TexCoords).xy, lerpWeights.x);
+#endif
+#if NUM_DETAIL_LAYERS > 2
+  layersNormal = lerp(layersNormal, tex2D(layer2NormalMap, In.vs.terrainLayer2TexCoords).xy, lerpWeights.y);
+#endif
+#if NUM_DETAIL_LAYERS > 3
+  layersNormal = lerp(layersNormal, tex2D(layer3NormalMap, In.vs.terrainLayer3TexCoords).xy, lerpWeights.z);
+#endif
+  layersNormal = layersNormal * 2 - 1;
+
+#if defined(USE_LOD_MAP)
+  float4 lodColor = tex2D(lodMap, In.vs.defaultTexCoords);
+  float lodMapWeight = max(In.vs.terrainLodMapWeight0, In.vs.terrainLodMapWeight1*lodColor.w);
+  layersNormal = lerp(layersNormal, float2(0,0), lodMapWeight);
+#endif
+
+  float3  tangentSpaceNormal = float3(layersNormal, sqrt(max(0, 1 - dot(layersNormal, layersNormal))));
+
+  float3 worldNormal = getNormal(In);
+  float3 worldTangent = getTangent(worldNormal);
+  float3 worldBitangent = cross(worldTangent, worldNormal);
+  float3x3 worldToTangentSpaceMat = float3x3(worldTangent, worldBitangent, worldNormal); 
+  
+  return mul(tangentSpaceNormal, worldToTangentSpaceMat); // translate from tangent space to world space
+}
+#else
+float3 getBlendedNormal(FS_INPUT In)
+{
+  return getNormal(In);
+}
+#endif
+]]>        
+      </CodeInjection>
+      <CodeInjection position="POST_ALBEDO_FS">
+        <![CDATA[
+#if (NUM_DETAIL_LAYERS > 0) || defined(USE_LOD_MAP)
+albedo.xyz = getBlendedColor(In);
+#endif
+]]>       
+      </CodeInjection>
+      <CodeInjection position="GET_NORMAL_FS">
+        <![CDATA[
+return getBlendedNormal(In);
+]]>
+      </CodeInjection>
+      <CodeInjection position="FINAL_POS_FS">
+        <![CDATA[
+#ifdef SHOW_TERRAIN_INFO_LAYER
+  float infoColor = tex2D(infoLayerMap, In.vs.defaultTexCoords).x;
+  oColor.xyz = lerp(oColor.xyz, infoColor, 0.7);
+#endif
+]]>
+      </CodeInjection>
+    </CodeInjections>
+  </LodLevel>
+  <LodLevel startDistance="1" copyLastCodeInjections="true" depthVizMode="noncustom" subsequentPassForceMode="use">
+    <LodVariation position="before">
+      <![CDATA[
+#define USE_LOD_MAP
+      ]]>      
+    </LodVariation>
+  </LodLevel>
+  <LodLevel startDistance="2" copyLastCodeInjections="true" depthVizMode="noncustom" subsequentPassForceMode="use">
+    <LodVariation position="after">
+      <![CDATA[
+#define USE_LOD_MAP
+#undef NUM_DETAIL_LAYERS
+#define NUM_DETAIL_LAYERS 0
+      ]]>
+    </LodVariation>
+  </LodLevel>
+  <Variations>
+    <Variation name="0">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 0
+#define NORMAL_MAPPING
+#define NONLINEAR_WEIGHTS
+      ]]>
+    </Variation>
+    <Variation name="1">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 1
+#define NORMAL_MAPPING
+#define NONLINEAR_WEIGHTS
+      ]]>
+    </Variation>
+    <Variation name="2">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 2
+#define NORMAL_MAPPING
+#define NONLINEAR_WEIGHTS
+      ]]>
+    </Variation>
+    <Variation name="3">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 3
+#define NORMAL_MAPPING
+#define NONLINEAR_WEIGHTS
+      ]]>
+    </Variation>
+    <Variation name="4">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 4
+#define NORMAL_MAPPING
+#define NONLINEAR_WEIGHTS
+      ]]>
+    </Variation>
+    <Variation name="L0">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 0
+      ]]>
+    </Variation>
+    <Variation name="L1">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 1
+      ]]>
+    </Variation>
+    <Variation name="L2">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 2
+      ]]>
+    </Variation>
+    <Variation name="L3">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 3
+      ]]>
+    </Variation>
+    <Variation name="L4">
+      <![CDATA[
+#define NUM_DETAIL_LAYERS 4
+      ]]>
+    </Variation>
+  </Variations>
+</CustomShader>

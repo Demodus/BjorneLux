@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<Husbandry>
+	<nl>
+		<name>Varkens</name>
+		<description>Voer je varkens met regelmaat, dan kan je ze bij de slagerij met meer winst verkopen.</description>
+		
+	</nl>
+	<en>
+		<name>Pigs</name>
+		<description>Feed your pigs on a regular basis, then you make more profit on the sale of pigs.</description>
+		
+	</en>
+    <de>
+		<name>Schwein</name>
+		<description>Füttern Sie Ihre Schweine regelmäßig, dann machen Sie mehr Profit beim Verkauf von Schweine.</description>
+		
+	</de>
+	<imageActive>map/models/buildings/SchweineMast/pig_store.dds</imageActive>
+	<price>50</price>
+	<dailyUpkeep>1</dailyUpkeep>
+</Husbandry>

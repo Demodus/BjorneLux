@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="untitled" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="6.0.3"/>
+  </Asset>
+
+  <Files>
+    <File fileId="1" filename="manureHeap_diffuse.dds" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="gray_mat" materialId="6" diffuseColor="0.584314 0.584314 0.584314 1" ambientColor="0.588235 0.588235 0.588235">
+    </Material>
+    <Material name="manure_mat" materialId="7" ambientColor="1 1 1">
+      <Texture fileId="1"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="ManureHeap.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="ManureHeap" translation="-108.665 -0.0775957 22.0331" rotation="-0.000297315 -89.0492 0.000327681" nodeId="13">
+      <TransformGroup name="manureHeap" translation="-6.73727 0 -109.593" scale="0.5 1 0.5" clipDistance="960" nodeId="14">
+        <TransformGroup name="Storage" clipDistance="960" nodeId="15"/>
+        <Shape shapeId="1" name="manureHeap" translation="0 -3.48 0" kinematic="true" clipDistance="960" nodeId="16" materialIds="7" castsShadows="true" receiveShadows="true">
+          <Shape shapeId="1" name="barley_windrowTrigger" translation="0 0.25 0" visibility="false" kinematic="true" trigger="true" collisionMask="8388608" clipDistance="960" nodeId="17" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        </Shape>
+        <Shape shapeId="2" name="manureTipTrigger" translation="0 0 6.31377" scale="0.7 1 2" static="true" trigger="true" collisionMask="8388608" nodeId="18" materialIds="6" castsShadows="true" receiveShadows="true" nonRenderable="true">
+          <TransformGroup name="triggerStart" translation="0 0 1.4" nodeId="19"/>
+          <TransformGroup name="triggerEnd" translation="0 0 -1.4" nodeId="20"/>
+        </Shape>
+        <Shape shapeId="2" name="manureTarget" translation="-1.42519e-010 -0.612624 1.02337" rotation="0 -3.49373e-007 9.32713e-014" scale="0.8 0.2 4" static="true" nodeId="21" materialIds="6" castsShadows="true" receiveShadows="true" nonRenderable="true"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+
+  <UserAttributes>
+    <UserAttribute nodeId="16">
+      <Attribute name="fillType" type="string" value="manure"/>
+      <Attribute name="moveMaxAmount" type="integer" value="150000"/>
+      <Attribute name="moveMinMaxY" type="string" value="-3.48 -0.24"/>
+      <Attribute name="onCreate" type="scriptCallback" value="SiloAmountMover.onCreate"/>
+    </UserAttribute>
+    <UserAttribute nodeId="17">
+      <Attribute name="fillType" type="string" value="barley_windrow"/>
+      <Attribute name="isSiloTrigger" type="boolean" value="true"/>
+      <Attribute name="onCreate" type="scriptCallback" value="ShovelFillTrigger.onCreate"/>
+    </UserAttribute>
+    <UserAttribute nodeId="18">
+      <Attribute name="fillTypes" type="string" value="manure"/>
+      <Attribute name="isAreaTrigger" type="boolean" value="true"/>
+      <Attribute name="isFarmTrigger" type="boolean" value="true"/>
+      <Attribute name="onCreate" type="scriptCallback" value="TipTrigger.onCreate"/>
+      <Attribute name="triggerWidth" type="float" value="6"/>
+    </UserAttribute>
+    <UserAttribute nodeId="21">
+      <Attribute name="fillTypes" type="string" value="manure"/>
+      <Attribute name="isSilo" type="boolean" value="true"/>
+      <Attribute name="onCreate" type="scriptCallback" value="ShovelTarget.onCreate"/>
+    </UserAttribute>
+  </UserAttributes>
+
+</i3D>

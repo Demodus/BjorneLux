@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="uvScaleCB"   target="uvScaleCB"   type="float4"   defaultValue = "4.0 4.0 2.0 2.0"/>
+    </Parameters>
+    <Textures>
+        <Texture name = "mBlendedCenter"    defaultColorProfile = "sRGB"   defaultFilename = "../textures/terrain/moss_diffuse.png"/>
+        <Texture name = "mBlendedBorders"   defaultColorProfile = "sRGB"   defaultFilename = "../textures/terrain/grass_diffuse.png"/>
+    </Textures>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="NUM_TEXCOORDS">
+<![CDATA[
+#ifdef ALPHA_TESTED
+    #undef ALPHA_TESTED
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="MATERIALINFO">
+<![CDATA[
+    uniform float4 uvScaleCB;
+]]>
+            </CodeInjection>    
+            <CodeInjection position = "SAMPLERS">
+<![CDATA[
+sampler2D mBlendedCenter;
+sampler2D mBlendedBorders;
+]]>
+            </CodeInjection>
+            <CodeInjection position = "FS_GLOBALS">
+<![CDATA[
+/*
+globals.gVertexColor.r - opacity  for mBlendedCenter   [ 0 - mBlendedCenter  not visible, 1 - fully visible ]
+globals.gVertexColor.g - softness for mBlendedCenter and mBlendedBorders  [ 0 - sharp transition, 1 - soft transition ]
+globals.gVertexColor.b - opacity  for mBlendedBorders  [ 0 - mBlendedBorders not visible, 1 - fully visible ]
+globals.gVertexColor.a - normalMap Intensity [ 0 - flat, 1 - bumpy ]
+*/
+#if defined( VERTEX_COLOR ) 
+    float4 gVertexColor;
+#endif
+    float  gMaskCenter;
+    float  gMaskBorders;
+    float  gMaskNormal;
+    float3 gBlendedCenter;
+    float3 gBlendedBorders;
+]]>
+            </CodeInjection>
+            <CodeInjection position = "START_FS">
+<![CDATA[
+#if defined( VERTEX_COLOR ) 
+    globals.gVertexColor     = In.vs.vertexColor.rgba;
+#endif
+    globals.gBlendedCenter   = tex2D( mBlendedCenter , uvScaleCB.xy * In.vs.ALBEDOMAP_TEXCOORD ).rgb;
+    globals.gBlendedBorders  = tex2D( mBlendedBorders, uvScaleCB.zw * In.vs.ALBEDOMAP_TEXCOORD ).rgb;
+    
+    float4 mBaseMap      = float4( 1, 1, 1, 1 );
+#if defined( ALBEDO_MAP )
+    mBaseMap             = tex2D( baseMap, In.vs.ALBEDOMAP_TEXCOORD).rgba;
+#endif
+    float4 mTmp          = saturate( ( globals.gVertexColor.rgba - mBaseMap.aaaa ) / ( 0.01 + globals.gVertexColor.g ) );
+    globals.gMaskCenter  = mTmp.r;
+    globals.gMaskBorders = mTmp.b;
+    globals.gMaskNormal  = mTmp.a;
+
+]]>
+            </CodeInjection>
+            <CodeInjection position = "GET_NORMAL_FS">
+<![CDATA[
+ #if defined( NORMAL_MAP )
+    float3 mNormal   = tex2D( normalMap, In.vs.NORMALMAP_TEXCOORD).xyz * 2.0 - 1.0;
+    return normalize( lerp( float3( 0.0, 0.0, 1.0 ), mNormal, globals.gMaskNormal ) );
+ #endif
+]]>
+            </CodeInjection>
+            <CodeInjection position = "POST_ALBEDO_FS">
+<![CDATA[
+#if defined( VERTEX_COLOR ) 
+    #undef VERTEX_COLOR
+#endif
+#if defined(ALBEDO_MAP)
+    albedo.rgb            = lerp( albedo.rgb, globals.gBlendedCenter,  globals.gMaskCenter );
+    albedo.rgb            = lerp( albedo.rgb, globals.gBlendedBorders, globals.gMaskBorders );
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="FINAL_POS_FS">
+<![CDATA[
+#if defined( DEBUG_SHOW_PARALLAX )
+    oColor.rgb  = (float3)( globals.gMaskNormal );
+#endif
+#if defined( DEBUG_SHOW_ALPHA )
+    oColor.rgb  = (float3)( globals.gMaskBorders );
+#endif
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

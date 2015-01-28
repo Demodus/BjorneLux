@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<map>
+	<annotation>Copyright (C) GIANTS Software GmbH, All Rights Reserved.</annotation>
+    
+    <ambientSamples basicVolume="0.6" >
+        <continuingSamples numOfSimultaneousSamples="4" minimumSamplePlayTime="20000" maximumSamplePlayTime="30000" >
+			<sample file="$data/maps/sounds/ambient/mapAmbient01.wav" pitchOffset="1" volume="0.65" minimumSamplePlayTime="" maximumSamplePlayTime="" soundCategory="day" />
+			<sample file="$data/maps/sounds/ambient/crickets.wav" pitchOffset="1" volume="0.3" minimumSamplePlayTime="" maximumSamplePlayTime="" soundCategory="night" />
+        </continuingSamples>
+        <intermittentSamples numOfSimultaneousSamples="3" minimumSamplePlayTime="1000" maximumSamplePlayTime="30000" >
+            <sample file="$data/maps/sounds/ambient/birdsChirping01.wav" pitchOffset="1" volume="0.25" soundCategory="day"/>
+           	<sample file="$data/maps/sounds/ambient/birdsChirping02.wav" pitchOffset="1" volume="0.15" soundCategory="day"/>
+            <sample file="$data/maps/sounds/ambient/planeFlyby.wav" pitchOffset="1" volume="0.75" minPause="60000" maxPause="120000" soundCategory="day"/>
+            <sample file="$data/maps/sounds/ambient/carPassBy.wav" pitchOffset="1" volume="0.4" soundCategory="day"/>
+            
+            <sample file="$data/maps/sounds/ambient/singleCricket.wav" pitchOffset="1" volume="0.3" minimumSamplePlayTime="15000" maximumSamplePlayTime="30000" soundCategory="night"/>
+            <sample file="$data/maps/sounds/ambient/heavyWind.wav" pitchOffset="1" volume="0.7" minimumSamplePlayTime="10000" maximumSamplePlayTime="20000" soundCategory="night"/>
+            <sample file="$data/maps/sounds/ambient/howlyWind.wav" pitchOffset="1" volume="0.3" minimumSamplePlayTime="8000" maximumSamplePlayTime="15000" soundCategory="night"/>
+        </intermittentSamples>
+    </ambientSamples>
+</map>

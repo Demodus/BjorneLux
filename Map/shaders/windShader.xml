@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="directionAndFrequency" target="directionAndFrequency" type="float4" />
+    </Parameters>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+        
+          <CodeInjection position="MATERIALINFO">
+<![CDATA[
+uniform float4 directionAndFrequency;
+]]>
+          </CodeInjection>        
+        
+            <CodeInjection position="GET_POSITION_VS">
+<![CDATA[
+float offset = sin(cTime_s + In.position.x*In.position.y * directionAndFrequency.w)*getDefaultTexCoords(In).y;
+return float4(In.position.xyz + directionAndFrequency.xyz * offset, 1.0);
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

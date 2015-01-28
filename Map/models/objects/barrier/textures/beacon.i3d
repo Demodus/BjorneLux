@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="beaconLights" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="6.0.2"/>
+  </Asset>
+
+  <Files>
+    <File fileId="8" filename="beaconGlassShader.xml" relativePath="true"/>
+    <File fileId="5" filename="beaconLightAlpha_diffuse.png" relativePath="true"/>
+    <File fileId="6" filename="beaconLightAlpha_normal.png" relativePath="true"/>
+    <File fileId="3" filename="beaconLightCorona_diffuse.png" relativePath="true"/>
+    <File fileId="1" filename="beaconLight_diffuse.png" relativePath="true"/>
+    <File fileId="2" filename="beaconLight_normal.png" relativePath="true"/>
+    <File fileId="7" filename="cubemapYellow.dds" relativePath="true"/>
+    <File fileId="4" filename="emissiveLightsShader.xml" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="beaconLightCorona_mat" materialId="7" ambientColor="1 1 1" alphaBlending="true" customShaderId="4" customShaderVariation="BILLBOARD_BEACON">
+      <Emissivemap fileId="3"/>
+    </Material>
+    <Material name="beaconLightAlpha_mat" materialId="10" ambientColor="1 1 1" cosPower="40" specularColor="1 1 1" alphaBlending="true" customShaderId="8">
+      <Texture fileId="5"/>
+      <Normalmap fileId="6"/>
+      <Reflectionmap fileId="7" wrap="false" type="cube" scaling="1" refractiveIndex="0.25" bumpScale="0.1" objectMask="2147483647"/>
+    </Material>
+    <Material name="beaconLight_mat" materialId="8" ambientColor="1 1 1" cosPower="200" specularColor="0.811963 0.811963 0.811963">
+      <Texture fileId="1"/>
+      <Normalmap fileId="2"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="beacon.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <Shape shapeId="1" name="beaconLight06" nodeId="22" materialIds="8" castsShadows="true" receiveShadows="true">
+      <TransformGroup name="coronas" nodeId="23">
+        <Shape shapeId="2" name="backLights_corona_main" translation="3.9443e-033 0.0575965 0.0382383" nodeId="24" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        <Shape shapeId="3" name="backLights_corona_side1" translation="-1.42109e-016 0.0575965 0.0168355" rotation="0 0 45" scale="0.247023 1.43021 1" nodeId="25" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        <Shape shapeId="3" name="backLights_corona_side2" translation="3.81917e-016 0.0575965 0.0168355" rotation="0 0 135" scale="0.229449 1.43021 1" nodeId="26" materialIds="7" castsShadows="true" receiveShadows="true"/>
+        <Shape shapeId="3" name="backLights_corona_side3" translation="1.34421e-017 0.0575965 0.0168355" rotation="0 0 180" scale="0.312542 1.84178 1" nodeId="27" materialIds="7" castsShadows="true" receiveShadows="true"/>
+      </TransformGroup>
+      <Shape shapeId="4" name="rotator" nodeId="28" materialIds="8" castsShadows="true" receiveShadows="true"/>
+      <Shape shapeId="5" name="glass" translation="-3.51212e-009 0 1.95118e-010" nodeId="29" materialIds="10" castsShadows="true" receiveShadows="true"/>
+    </Shape>
+  </Scene>
+
+  <UserAttributes>
+    <UserAttribute nodeId="22">
+      <Attribute name="rotationIndex" type="string" value="0"/>
+      <Attribute name="rotatorIndex" type="string" value="1"/>
+    </UserAttribute>
+  </UserAttributes>
+
+</i3D>

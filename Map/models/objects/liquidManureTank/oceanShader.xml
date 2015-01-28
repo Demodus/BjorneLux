@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="bumpSpeedScale" target="bumpSpeedScale" type="float3" />
+        <Parameter name="reflectionAmount" target="reflectionAmount" type="float3" />
+        <Parameter name="underwaterFogColor" target="underwaterFogColor" type="float3" />
+    </Parameters>
+    <LodLevel startDistance="0" subsequentPassForceMode="ignore">
+        <CodeInjections>
+            <CodeInjection position="NUM_TEXCOORDS">
+<![CDATA[
+// only allow directional lights, specular only
+#define NUM_DIFFUSE_LIGHTS 0
+#define NUM_POINT_LIGHTS 0
+#define NUM_SPOT_LIGHTS 0
+
+#if defined(DIFFUSE)
+#undef DIFFUSE
+#endif
+
+// for low spec no lights at all
+//#ifdef LOWSPEC
+//#define NUM_DIRECTIONAL_LIGHTS 0
+//#endif
+
+
+#if !defined(DEPTH_BLEND_MAP_RENDERING) && (defined(REFLECTION_MAP_2D) || defined(REFLECTION_MAP_CUBE)) && defined(REFRACTION_MAP) && defined(NORMAL_MAP)
+#define WATER_RENDERING
+#endif
+#if defined(WATER_RENDERING)
+
+#if defined(DEPTH_BLEND_MAP)
+#define WATER_DEPTH tex2D(depthBlendMap, In.vs.defaultTexCoords.xy).x
+#else
+#define WATER_DEPTH 1.0
+#endif
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="CONFIG_DEFINES">
+<![CDATA[
+#if defined(WATER_RENDERING)
+#undef _NO_TANGENTSPACE
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="VS_OUTPUT">
+<![CDATA[
+float2 normalMapTexCoord0  : TEXCOORDn;
+float2 normalMapTexCoord1  : TEXCOORDn;
+float2 normalMapTexCoord2  : TEXCOORDn;
+]]>
+            </CodeInjection>
+            <CodeInjection position="MATERIALINFO">
+<![CDATA[
+#if defined(WATER_RENDERING)
+    uniform float4 bumpSpeedScale;
+    uniform float4 reflectionAmount;
+    uniform float4 underwaterFogColor;
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="POST_SET_TEXCOORDS_VS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+float textureScale = bumpSpeedScale.z;
+float2 bumpSpeed = bumpSpeedScale.xy*textureScale;
+
+float2 translation=float2(cTime_s*bumpSpeed.x, 0);
+float2 translation2=float2(translation.x, cTime_s*bumpSpeed.y);
+
+float2 texCoords=In.position.xz*textureScale;
+
+Out.normalMapTexCoord0 = texCoords.xy+translation;
+Out.normalMapTexCoord1 = texCoords.xy*2.0+translation*4.0;
+Out.normalMapTexCoord2 = texCoords.xy*4.0-translation2;
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="POST_ALBEDO_FS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+albedo = float4(0, 0, 0, 1);
+diffuseLighting = float3(0,0,0);
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_NORMAL_FS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+// sum normal maps
+// sample from 3 different points so no texture repetition is noticeable
+float3 t0 = tex2D(normalMap, In.vs.normalMapTexCoord0).xyz;
+float3 t1 = tex2D(normalMap, In.vs.normalMapTexCoord1).xyz;
+float3 t2 = tex2D(normalMap, In.vs.normalMapTexCoord2).xyz;
+return normalize((t0.xyz + t1.xyz + t2.xyz)*2 -3);
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_REFRACTION_COLOR_TEX_FS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+    float depth = WATER_DEPTH;
+    float2 finalCoord2 = In.vs.reflRefrCoord.xy/In.vs.reflRefrCoord.w;
+    finalCoord2 += normal.xy*cRefractionBumpScale*depth;
+#if defined(FLIP_TEXCOORD_Y)
+	finalCoord2.y = 1-finalCoord2.y;
+#endif
+    return tex2D(refractionMap, finalCoord2).xyz;
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_REFLECTION_REFRACTION_FACTOR_FS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+{
+    float fresnel = getFresnel(facing, cReflectionCoeff, 5.0);
+    fresnel = saturate(fresnel * reflectionAmount.x);
+    reflectionFactor = fresnel;
+    refractionFactor = 1-fresnel;
+}
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_REFRACTION_COLOR_FS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+    float softIntersect = WATER_DEPTH;
+
+    float3 refractionColor = getRefractionColorTex(In, globals, normal, viewDir);
+
+    return lerp(refractionColor, oColor.xyz + refractionColor*refractionFactor, softIntersect);
+#endif
+]]>
+            </CodeInjection>
+            <CodeInjection position="GET_REFLECTION_COLOR_TEX_FS">
+<![CDATA[
+#if defined(WATER_RENDERING)
+    float2 finalCoord2 = In.vs.reflRefrCoord.xy/In.vs.reflRefrCoord.w;
+    finalCoord2 += normal.xy*cReflectionBumpScale;
+    return pow(tex2D(reflectionMap, finalCoord2).xyz, 2.2);
+#endif
+]]>
+            </CodeInjection>
+        </CodeInjections>
+    </LodLevel>
+</CustomShader>

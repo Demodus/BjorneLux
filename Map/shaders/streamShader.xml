@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CustomShader version="3">
+    <Parameters>
+        <Parameter name="directions" target="directions" type="float4" defaultValue="0.15 0 0.13 0" />
+    </Parameters>
+    <LodLevel startDistance="0">
+        <CodeInjections>
+            <CodeInjection position="MATERIALINFO">
+                <![CDATA[
+                uniform float4 directions;
+                ]]>
+            </CodeInjection>
+            <CodeInjection position="VS_OUTPUT">
+                <![CDATA[
+                float2 defaultTexCoords2  : TEXCOORDn;
+                ]]>
+            </CodeInjection>
+			<CodeInjection position="POST_SET_TEXCOORDS_VS">
+				<![CDATA[
+				#if defined(ALBEDO_MAP)
+					float2 uv = getDefaultTexCoords(In);
+					float2 uv1 = uv + directions.xy * cTime_s;
+					float2 uv2 = uv+float2(0.5, 0.2) + directions.zw * cTime_s;
+					Out.defaultTexCoords = uv1;
+					Out.defaultTexCoords2 = uv2;
+				#endif
+				]]>
+        	</CodeInjection>
+
+        	<CodeInjection position="POST_ALBEDO_FS">
+                <![CDATA[
+                #if defined(ALBEDO_MAP)
+                    float4 albedo2 = tex2D(baseMap, In.vs.defaultTexCoords2);
+                    albedo.xyz = lerp(albedo.xyz, albedo2.xyz, albedo2.w);
+                    albedo.w = max(albedo.w, albedo2.w);
+                #endif
+                ]]>
+	        </CodeInjection>
+            <CodeInjection position="GET_REFLECTION_COLOR_FS">
+                <![CDATA[
+                #if defined(REFLECTION_MAP_2D) || defined(REFLECTION_MAP_CUBE)
+                    float envScale = 0;
+                    #if (NUM_DIRECTIONAL_LIGHTS > 0)
+                        envScale = diffuseColors[0].y;
+                    #endif
+                    res = lerp(oColor.xyz, getReflectionColorTex(In, globals, normal, viewDir)*envScale, reflectionFactor);
+                #endif
+                ]]>
+	        </CodeInjection>
+
+     	  </CodeInjections>
+    </LodLevel>
+</CustomShader>
