@@ -43,6 +43,18 @@
 			Maar niet te vergeten is de nieuwe taak die je wacht. Het uitvoeren van bosbouw. Neem je kettingzaag mee en zorg voor voldoende hout voor de plaatselijke IKEA , en natuurlijk ook een voorraad
 			om de plaatselijke bevolking warm te houden in de winter. Eieren kan men bij de aldi verkopen, Varkens en Rund naast de Aldi aan de slagerij</nl>
         </text>
+
+<!-- BunkerSiloHud custom names -->
+		<text name="BSH_cowSilo1"><en>Farm Bunker</en></text>
+		<text name="BSH_cowDairyManure"><en>Dairy Cow Tank</en></text>
+		<text name="BSH_pigManure"><en>Pig Farm Tank</en></text>
+		<text name="BSH_beefManure"><en>Beef Farm Tank</en></text>
+		<text name="BSH_bgaManure"><en>BGA Storage Tank</en></text>
+		<text name="BSH_bgaSilo1"><en>BGA North Bunker</en></text>
+		<text name="BSH_bgaSilo2"><en>BGA North-Center Bunker</en></text>
+		<text name="BSH_bgaSilo3"><en>BGA South-Center Bunker</en></text>
+		<text name="BSH_bgaSilo4"><en>BGA South Bunker</en></text>
+		
 		
 <!-- GuelleMistMod l10n -->		
 		<text name="manure"> <en>manure</en> <de>Mist</de> </text>
